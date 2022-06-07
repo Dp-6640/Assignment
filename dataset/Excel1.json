@@ -8,10 +8,10 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
-			"sheetName": "au-500",
+			"sheetName": "Sheet1",
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "practise.xls",
+				"fileName": "salary.xlsx",
 				"container": "datacontainer"
 			},
 			"firstRowAsHeader": true
