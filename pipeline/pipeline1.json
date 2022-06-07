@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "File1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -59,7 +59,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "File1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
