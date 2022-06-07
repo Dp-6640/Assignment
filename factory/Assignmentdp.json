@@ -1,0 +1,9 @@
+{
+	"name": "Assignmentdp",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "f5522bf7-36d2-4711-9352-15180834702e",
+		"tenantId": "c56f4ee9-607c-435c-82b1-a815f898d621"
+	}
+}
