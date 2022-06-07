@@ -1,0 +1,20 @@
+{
+	"name": "Excel1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStoragedp",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "au-500",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "practise.xls",
+				"container": "datacontainer"
+			}
+		},
+		"schema": []
+	}
+}
