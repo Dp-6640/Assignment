@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlDatabaseSinkDataset",
+	"name": "AzureSqlDatabaseSinkDataset1",
 	"properties": {
 		"description": "Connection to your destination data store.",
 		"linkedServiceName": {
@@ -7,7 +7,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"TableName": {
+			"sinkTableName": {
 				"type": "string"
 			}
 		},
@@ -15,9 +15,9 @@
 		"type": "AzureSqlTable",
 		"schema": [],
 		"typeProperties": {
-			"schema": "",
+			"schema": "dbo",
 			"table": {
-				"value": "@dataset().TableName",
+				"value": "@dataset().sinkTableName",
 				"type": "Expression"
 			}
 		}

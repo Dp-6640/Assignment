@@ -1,0 +1,27 @@
+{
+	"name": "Excel3",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStoragedp",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().FileName",
+					"type": "Expression"
+				},
+				"container": "datacontainer"
+			}
+		},
+		"schema": []
+	}
+}

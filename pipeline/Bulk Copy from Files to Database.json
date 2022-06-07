@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "Bulk Copy from Files to Database",
 	"properties": {
 		"activities": [
 			{
-				"name": "getmetadata",
+				"name": "Files",
 				"type": "GetMetadata",
 				"dependsOn": [],
 				"policy": {
@@ -16,30 +16,25 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "Excel3",
-						"type": "DatasetReference",
-						"parameters": {
-							"FileName": {
-								"value": "@pipeline().DataFactory",
-								"type": "Expression"
-							}
-						}
+						"referenceName": "GetMetadataDataset",
+						"type": "DatasetReference"
 					},
-					"fieldList": [
-						"childItems"
-					],
+					"fieldList": [],
 					"storeSettings": {
-						"type": "AzureBlobStorageReadSettings",
+						"type": "AzureBlobFSReadSettings",
 						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
 					}
 				}
 			},
 			{
-				"name": "ForEach1",
+				"name": "ForEachFile",
 				"type": "ForEach",
 				"dependsOn": [
 					{
-						"activity": "getmetadata",
+						"activity": "Files",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -48,12 +43,12 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@activity('getmetadata').output",
+						"value": "@activity('Get Files').output.childItems",
 						"type": "Expression"
 					},
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "CopyFiles",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -66,35 +61,36 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "ExcelSource",
+									"type": "DelimitedTextSource",
 									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
-										"recursive": true,
-										"enablePartitionDiscovery": false
+										"type": "AzureBlobFSReadSettings",
+										"recursive": true
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
 									}
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"tableOption": "autoCreate",
-									"disableMetricsCollection": false
+									"tableOption": "autoCreate"
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
+								"enableStaging": false
 							},
 							"inputs": [
 								{
-									"referenceName": "Excel3",
+									"referenceName": "SourceDataset1",
 									"type": "DatasetReference",
 									"parameters": {
-										"FileName": {
+										"fileName": {
 											"value": "@item().name",
+											"type": "Expression"
+										},
+										"SourceContainer": {
+											"value": "@pipeline().parameters.SourceContainer",
+											"type": "Expression"
+										},
+										"SourceDirectory": {
+											"value": "@pipeline().parameters.SourceDirectory",
 											"type": "Expression"
 										}
 									}
@@ -102,10 +98,10 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "AzureSqlDatabaseSinkDataset",
+									"referenceName": "AzureSqlDatabaseSinkDataset1",
 									"type": "DatasetReference",
 									"parameters": {
-										"TableName": {
+										"sinkTableName": {
 											"value": "@item().name",
 											"type": "Expression"
 										}
@@ -117,6 +113,14 @@
 				}
 			}
 		],
+		"parameters": {
+			"SourceContainer": {
+				"type": "string"
+			},
+			"SourceDirectory": {
+				"type": "string"
+			}
+		},
 		"annotations": []
 	}
 }
